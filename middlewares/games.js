@@ -60,5 +60,68 @@ const deleteGame = async (req, res, next) => {
     }
 }
 
+const checkIsGameExists = async (req, res, next) => {
+    console.log(req.gamesArray);
+    const isInArray = req.gamesArray.find((game) => {
+        return req.body.title === game.title;
+    });
+    console.log(isInArray);
+    if (isInArray) {
+        res.status(400).send({ message: "Игра с таким названием уже существует" });
+    } else {
+        next();
+    }
+};
 
-module.exports = { findAllGames, createGame, findGameById, updateGame, deleteGame }
+const checkEmptyFields = async (req, res, next) => {
+    if(req.isVoteRequest) {
+        next();
+        return;
+      } 
+      if (
+        !req.body.title ||
+        !req.body.description ||
+        !req.body.image ||
+        !req.body.link ||
+        !req.body.developer
+      ) {
+        res.status(400).send({ message: "Заполните все поля" });
+      } else {
+        next();
+      }
+    };
+
+    const checkIfCategoriesAvaliable = async (req, res, next) => {
+        if (req.isVoteRequest) {
+            next();
+            return;
+        }
+        if (!req.body.categories || req.body.categories.length === 0) {
+            res.headers = { "Content-Type": "application/json" };
+            res.status(400).send({ message: "Выберите хотя бы одну категорию" });
+        } else {
+            next();
+        }
+    };
+
+    const checkIfUsersAreSafe = async (req, res, next) => {
+        console.log(req.body.users);
+        if (!req.body.users) {
+            next();
+            return;
+        }
+        if (req.body.users.length - 1 === req.game.users.length) {
+            next();
+            return;
+        } else {
+            res
+                .status(400)
+                .send({ message: "Нельзя удалять пользователей или добавлять больше одного пользователя" });
+        }
+    }
+    const sendGameById = (req, res) => {
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(req.game));
+      };
+
+module.exports = {sendGameById, checkIfUsersAreSafe, checkIfCategoriesAvaliable, checkEmptyFields, checkIsGameExists, findAllGames, createGame, findGameById, updateGame, deleteGame }

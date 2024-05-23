@@ -1,12 +1,13 @@
 const allowedCors = [
   "https://meksfrontend.nomoredomainswork.ru/",
   "http://meksfrontend.nomoredomainswork.ru/",
-  "http://localhost:3000/",
-  "http://localhost:3001/"
+  "http://localhost:3000"
 ];
 
 function cors(req, res, next) {
   const { origin } = req.headers;
+
+  console.log(origin)
 
   if (allowedCors.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
@@ -18,3 +19,4 @@ function cors(req, res, next) {
 
 
 module.exports = cors;
+

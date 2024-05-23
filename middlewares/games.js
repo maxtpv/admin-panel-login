@@ -119,9 +119,13 @@ const checkEmptyFields = async (req, res, next) => {
                 .send({ message: "Нельзя удалять пользователей или добавлять больше одного пользователя" });
         }
     }
-    const sendGameById = (req, res) => {
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify(req.game));
-      };
 
-module.exports = {sendGameById, checkIfUsersAreSafe, checkIfCategoriesAvaliable, checkEmptyFields, checkIsGameExists, findAllGames, createGame, findGameById, updateGame, deleteGame }
+      const checkIsVoteRequest = async (req, res, next) => {
+        
+      if (Object.keys(req.body).length === 1 && req.body.users) {
+        req.isVoteRequest = true;
+      }
+      next();
+    }; 
+
+module.exports = {checkIsVoteRequest, checkIfUsersAreSafe, checkIfCategoriesAvaliable, checkEmptyFields, checkIsGameExists, findAllGames, createGame, findGameById, updateGame, deleteGame }

@@ -1,6 +1,6 @@
 const allowedCors = [
-  "https://meksfrontend.nomoredomainswork.ru/",
-  "http://meksfrontend.nomoredomainswork.ru/",
+  "https://meksfrontend.nomoredomainswork.ru",
+  "http://meksfrontend.nomoredomainswork.ru",
   "http://localhost:3000"
 ];
 

@@ -42,9 +42,9 @@ const updateUser = async (req, res, next) => {
 }
 
 
-const checkEmptyNameAndEmail = async (req, res, next) => {
-    if (!req.body.username || !req.body.email) {
-        res.status(400).send({ message: "Введите имя и email" });
+const checkEmptyNameEmailAndPassword = async (req, res, next) => {
+    if (!req.body.username || !req.body.email || !req.body.password) {
+        res.status(400).send({ message: "Введите имя, email и пароль" });
     } else {
         next();
     }
@@ -77,4 +77,4 @@ const hashPassword = async(req, res, next) => {
 
 
 
-module.exports = { findAllUsers, findUserById, createUser, updateUser, checkEmptyNameAndEmail, deleteUser, hashPassword }
+module.exports = { findAllUsers, findUserById, createUser, updateUser, checkEmptyNameEmailAndPassword, deleteUser, hashPassword }

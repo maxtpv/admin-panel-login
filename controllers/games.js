@@ -10,7 +10,7 @@ const sendGameCreated = (req, res) => {
 
 const sendGameUpdated = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.end("Game updated successfully");
+    res.end(JSON.stringify(req.game));
 };
 
 

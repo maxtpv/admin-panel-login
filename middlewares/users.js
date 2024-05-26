@@ -50,6 +50,13 @@ const checkEmptyNameEmailAndPassword = async (req, res, next) => {
     }
 };
 
+const checkEmptyNameEmail = async (req, res, next) => {
+    if (!req.body.username || !req.body.email) {
+        res.status(400).send({ message: "Введите имя и email" });
+    } else {
+        next();
+    }
+};
 
 const deleteUser = async (req, res, next) => {
     console.log("DELETE /users/:id");
@@ -77,4 +84,4 @@ const hashPassword = async(req, res, next) => {
 
 
 
-module.exports = { findAllUsers, findUserById, createUser, updateUser, checkEmptyNameEmailAndPassword, deleteUser, hashPassword }
+module.exports = { checkEmptyNameEmail, findAllUsers, findUserById, createUser, updateUser, checkEmptyNameEmailAndPassword, deleteUser, hashPassword }

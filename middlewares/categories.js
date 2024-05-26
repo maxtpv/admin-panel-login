@@ -57,6 +57,23 @@ const checkIsCategoryExists = async (req, res, next) => {
     }
 };
 
+const checkIsCategoryExistsForUpdate = async (req, res, next) => {
+    const categoryName = req.body.name;
+    const categoryId = req.params.id;
+
+    try {
+        const existingCategory = await categories.findOne({ name: categoryName });
+
+        if (existingCategory && existingCategory._id.toString() !== categoryId) {
+            res.status(400).send({ message: "Категория с таким названием уже существует" });
+        } else {
+            next();
+        }
+    } catch (err) {
+        res.status(500).send({ message: "Ошибка проверки категории" });
+    }
+};
+
 
 const checkEmptyName = async (req, res, next) => {
     if (!req.body.name) {
@@ -78,4 +95,4 @@ const deleteCategory = async (req, res, next) => {
 };
 
 
-module.exports = {checkIsCategoryExists, findAllCategories, findCategoryById, createCategory, updateCategory, checkEmptyName, deleteCategory }
+module.exports = {checkIsCategoryExistsForUpdate, checkIsCategoryExists, findAllCategories, findCategoryById, createCategory, updateCategory, checkEmptyName, deleteCategory }

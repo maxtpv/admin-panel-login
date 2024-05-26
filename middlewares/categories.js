@@ -1,10 +1,29 @@
 const categories = require('../models/category');
 
 const findAllCategories = async (req, res, next) => {
-    console.log('GET /categories')
-    req.categoriesArray = await categories.find({});
-    next()
-}
+    console.log('GET /categories');
+    try {
+        const categoriesArray = await categories.find({});
+        
+        //массив для уникальных имен категорий
+        const uniqueNames = [];
+        //Оставляем только уникальные имена
+        const uniqueCategories = categoriesArray.filter(category => {
+            // Если имя категории уже есть в массиве, значит оно не уникально - не добавляем в массив уникальных имён
+            if (uniqueNames.includes(category.name)) {
+                return false;
+            }
+            // Если имя категории нет в массиве, значит оно уникально - добавляем в массив уникальных имён
+            uniqueNames.push(category.name);
+            return true;
+        });
+
+        req.categoriesArray = uniqueCategories;
+        next();
+    } catch (err) {
+        res.status(500).send({ message: "Ошибка при получении списка категорий" });
+    }
+};
 
 const findCategoryById = async (req, res, next) => {
     console.log("GET /categories/:id");

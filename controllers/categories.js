@@ -13,7 +13,7 @@ const sendCategoryCreated = (req, res) => {
 //PUT
 const sendCategoryUpdated  = (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.end("User updated");
+  res.end("Category updated");
 };
 
 const sendCategoryDeleted = (req, res) => {

@@ -61,7 +61,7 @@ const deleteGame = async (req, res, next) => {
 }
 
 const checkIsGameExists = async (req, res, next) => {
-    console.log(req.gamesArray);
+
     const isInArray = req.gamesArray.find((game) => {
         return req.body.title === game.title;
     });
